@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ProductDeliveryManagement.Models.DeliveryPerson>
+@using X.PagedList
+@using X.PagedList.Mvc
+@using X.PagedList.Mvc.Common
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Delivery people</h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a href="@Url.Action("Create", "DeliveryPeople")" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i> Add New</a>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Delivery Person Name</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr id="tr_@d.DeliveryPersonId">
+                        <td>@d.Name</td>
+                        <td>@d.Phone</td>
+                        <td>@d.Address</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "DeliveryPeople", new { id = d.DeliveryPersonId }, new { @class = "btn btn-secondary btn-sm" })
+                            @Html.ActionLink("Delete", "Delete", "DeliveryPeople", new { id = d.DeliveryPersonId }, new { @class = "btn btn-danger btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }), new PagedListRenderOptions
+               {
+                   UlElementClasses = new string[] { "pagination", "pagination-sm" },
+                   LiElementClasses = new string[] { "page-item" },
+                   PageClasses = new string[] { "page-link" },
+                   DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                   DisplayLinkToPreviousPage = PagedListDisplayMode.Always
+               }
+           )
+        </div>
+    </div>
+</div>
+@section styles
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+}
+
